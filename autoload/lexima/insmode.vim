@@ -211,7 +211,11 @@ function! s:find_rule(char)
     let at_pos = searchpos(rule.at, 'bcWn', searchlimit)
     let excepted = has_key(rule, 'except') ?
     \              searchpos(rule.except, 'bcWn', searchlimit) !=# [0, 0] : 0
-    if at_pos !=# [0, 0] && !excepted
+    let enabled = has_key(rule, 'enabled') && type(rule.enabled) == type(function('tr')) ? call(rule.enabled, [a:char]) : 1
+    if type(enabled) !=# type(v:true) && type(enabled) !=# type(0)
+      let enabled = 0 " Turn off rules that produce invalid output from rule.enabled()
+    endif
+    if at_pos !=# [0, 0] && !excepted && enabled
       if empty(rule.syntax)
         return [rule, at_pos]
       else

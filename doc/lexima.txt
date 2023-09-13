@@ -345,6 +345,10 @@ except (Regex) (Optional)			*lexima-rules-except*
 	Like "at", but the rule is not applied when this regular expression
 	matches around the cursor position.
 
+enabled (Function:Boolean) (Optional)		*lexima-rules-enabled*
+	Contains a function that returns a truthy value (1 or |v:true|) when
+	the rule should be enabled.
+
 input (String) (Optional)			*lexima-rules-input*
 	Specify a string to be input when the rule is applied.
 	If omitted, "" used when "leave" specified simultaneously
